@@ -61,6 +61,14 @@ jobs:
           source: QuanLyNhaXe-0.0.1-SNAPSHOT.jar
           target: ${{ secrets.DEPLOY_DIR }}/QuanLyNhaXe-0.0.1-SNAPSHOT.jar
 
+      - name: Set up SSH
+        run: |
+          eval $(ssh-agent -s)
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
+          mkdir -p ~/.ssh
+          chmod -R 700 ~/.ssh
+          echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
       - name: Deploy to Elastic Beanstalk
         run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} 'eb deploy ${{ secrets.DEPLOY_DIR }}/QuanLyNhaXe-0.0.1-SNAPSHOT.jar --env ${{ secrets.EB_ENV_NAME }}'
+          ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} 'eb deploy ${{ secrets.DEPLOY_DIR }}/QuanLyNhaXe-0.0.1-SNAPSHOT.jar --env ${{ secrets.EB_ENV_NAME }}'
