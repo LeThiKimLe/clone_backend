@@ -72,4 +72,5 @@ jobs:
 
       - name: Deploy to Elastic Beanstalk
         run: |
+          echo "${{ secrets.DEPLOY_DIR }}"
           ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} 'cd ${{ secrets.DEPLOY_DIR }} && ~/.local/bin/eb init && ~/.local/bin/eb deploy -v --env ${{ secrets.EB_ENV_NAME }}'
