@@ -59,7 +59,7 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: QuanLyNhaXe-0.0.1-SNAPSHOT.jar
-          target: ${{ secrets.DEPLOY_DIR }}/QuanLyNhaXe-0.0.1-SNAPSHOT.jar
+          target: ${{ secrets.DEPLOY_DIR }}
 
       - name: Set up SSH
         run: |
